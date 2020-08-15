@@ -1,0 +1,1 @@
+Contains `.sql` files intended to be copy/pasted into your Red Gate SQL Prompt snippets editor.
