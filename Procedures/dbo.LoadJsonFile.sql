@@ -1,8 +1,3 @@
-use fhir
-go
-set nocount on
-go
-
 /*****************************
 DSQL wrapper for grabbing the content of a JSON file from disk
 NOTE: This could be expanded to be sp_LoadJsonFile, but that would either mean the removal of the xp/default directory logic, or it's expansion.
@@ -35,7 +30,11 @@ begin
 		@Slash nchar(1),
 		@DotSlash nchar(2),
 		@sql nvarchar(max),
-		@msg nvarchar(max)
+		@msg nvarchar(max),
+        @CR char(1),
+        @T char(1),
+        @CR2 char(2),
+        @CRT char(2)
 
 	begin try
 
@@ -44,6 +43,10 @@ begin
 		begin
 
 			select
+                @CR = char(13),
+                @T = char(9),
+                @CR2 = @CR + @CR,
+                @CRT = @CR + @T,
 				@Slash = iif(@PathStyle = 'posix', N'/', N'\'),
 				@DotSlash = N'.' + @Slash
 
@@ -78,7 +81,7 @@ begin
 		-- Have to use DSQL because OPENROWSET won't let you parameterize it
 		select @sql = concat
 		(
-			'select @JsonText = BulkColumn ', char(13), char(9),
+			'select @JsonText = BulkColumn ', @CRT,
 			'from openrowset(bulk ', quotename(@NewFilePath, ''''), ', single_clob) a'
 		)
 
@@ -87,16 +90,16 @@ begin
 		begin
 			select @msg = concat
 			(
-				'Input FilePath:', char(13), char(9),
-					@FilePath, char(13), char(13),
-				'New FilePath:', char(13), char(9),
-					@NewFilePath, char(13), char(13),
-				'Stmt: ' , char(13), char(9),
-					@Sql, char(13), char(13),
-				'DefaultDirectory: ' , char(13), char(9),
-					@DefaultDirectory, char(13), char(13),
-				'PathStyle: ' , char(13), char(9),
-					@PathStyle, char(13)
+				'Input FilePath:', @CRT,
+					@FilePath, @CR2,
+				'New FilePath:', @CRT,
+					@NewFilePath, @CR2,
+				'Stmt: ', @CRT,
+					@Sql, @CR2,
+				'DefaultDirectory: ', @CRT,
+					@DefaultDirectory, @CR2,
+				'PathStyle: ', @CRT,
+					@PathStyle, @CR
 			)
 
 			raiserror(@sql, 0, 1) with nowait
@@ -116,16 +119,16 @@ begin
 
 			select @msg = concat
 			(
-				'Input FilePath:', char(13), char(9),
-					@FilePath, char(13), char(13),
-				'New FilePath:', char(13), char(9),
-					@NewFilePath, char(13), char(13),
-				'Stmt: ' , char(13), char(9),
-					@Sql, char(13), char(13),
-				'DefaultDirectory: ' , char(13), char(9),
-					@DefaultDirectory, char(13), char(13),
-				'PathStyle: ' , char(13), char(9),
-					@PathStyle, char(13)
+				'Input FilePath:', @CRT,
+					@FilePath, @CR2,
+				'New FilePath:', @CRT,
+					@NewFilePath, @CR2,
+				'Stmt: ', @CRT,
+					@Sql, @CR2,
+				'DefaultDirectory: ', @CRT,
+					@DefaultDirectory, @CR2,
+				'PathStyle: ', @CRT,
+					@PathStyle, @CR
 			)
 		print @msg
 
