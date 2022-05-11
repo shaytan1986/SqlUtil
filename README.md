@@ -23,3 +23,6 @@ Custom stored procedures built in the `master` database, and marked as special p
 
 ## Systems
 Systems of more than one object which work together to provide a specific unit of functionality.
+
+## Snippets
+Code snippets, usually in SQLPrompt
