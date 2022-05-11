@@ -1,8 +1,3 @@
-use HealthJump
-go
-set nocount, xact_abort on
-go
-
 /**********************************************************
 * dbo.StringSplit
 * Creator:      Gabe Tower
