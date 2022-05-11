@@ -1,3 +1,18 @@
+/**********************************************************
+* dbo.numbers
+* Creator:      GTower
+* Created:      10:04 AM
+* Description:	An improved tally table which takes advantage of the number to produce characters (via ASCII and UNICODE functions) and dates (via OADate conversion)
+* Sample Usage
+
+		select top 1000 *
+        from dbo.numbers
+
+* Modifications
+User            Date        Comment
+-----------------------------------------------------------
+
+**********************************************************/
 drop table if exists dbo.numbers
 create table dbo.numbers
 (
