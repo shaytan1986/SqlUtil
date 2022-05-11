@@ -1,8 +1,3 @@
-use tokens
-go
-set nocount, xact_abort on
-go
-
 create type dbo.tNameValuePair as table
 (
     Name nvarchar(max),

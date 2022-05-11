@@ -4,12 +4,12 @@
 public static class SqlStringExtensions
 {
 	/// <summary>
-	/// Repeats the source string n times
+	/// Replicates the source string n times
 	/// </summary>
 	/// <param name="value"></param>
 	/// <param name="repetitions"></param>
 	/// <returns></returns>
-	public static string Repeat(this string value, int repetitions)
+	public static string Replicate(this string value, int repetitions)
 		=> new StringBuilder(value.Length * repetitions).Insert(0, value, repetitions).ToString();
 
 	/// <summary>
@@ -24,11 +24,11 @@ public static class SqlStringExtensions
 	{
 		var strVal = value.ToString();
 		// Replace the left character
-		strVal = strVal.Replace(left, left.Repeat(2));
+		strVal = strVal.Replace(left, left.Replicate(2));
 		// Assuming left and right are different, replace the right character.
 		if (left != right)
 		{
-			strVal = strVal.Replace(right, right.Repeat(2));
+			strVal = strVal.Replace(right, right.Replicate(2));
 		}
 		// Wrap string in left/right values
 		strVal = $"{left}{strVal}{right}";

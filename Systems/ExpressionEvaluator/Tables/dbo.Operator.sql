@@ -49,9 +49,9 @@ insert into dbo.Operator
     Expr
 )
 select
-    s.Code,
-    s.Description,
-    s.Expr
+    Code = s.Code,
+    Description = s.Description,
+    Expr = s.Expr
 from src s
 left outer join dbo.Operator t
     on s.Code = t.Code
