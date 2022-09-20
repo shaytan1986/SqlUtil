@@ -31,7 +31,7 @@
         ExpectedCt = max(s.ExpectedCt),
         OutputCt = count(1)
     from src s
-    cross apply Mdx.dbo.GetNumbers(s.Low, s.High) n
+    cross apply dbo.GetNumbers(s.Low, s.High) n
     group by s.Id
 
 * Modifications
