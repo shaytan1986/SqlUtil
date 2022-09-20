@@ -1,3 +1,8 @@
+use Util
+go
+set nocount, xact_abort on
+go
+
 /**********************************************************
 * TABLE-VALUED FUNCTION: dbo.GetNumbers
 * Creator:      Gabe Tower
@@ -13,7 +18,7 @@
 
 * Sample Usage
 
-    ;with src (Id, low, high, expectedCt) as
+    ;with src (Id, InputLow, InputHigh, ExpectedCt) as
     (
         select 1, null, null, 0 union all
         select 2, 1, null, 0 union all
@@ -24,9 +29,9 @@
     )
     select
         Id,
-        InputLow = max(s.Low),
+        InputLow = max(s.InputLow),
         OutputLow = min(n.Number),
-        InputHigh = max(s.High),
+        InputHigh = max(s.InputHigh),
         OutputHigh = max(n.Number),   
         ExpectedCt = max(s.ExpectedCt),
         OutputCt = count(1)
