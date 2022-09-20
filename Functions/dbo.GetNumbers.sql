@@ -9,7 +9,10 @@ go
 * Created:      9/13/2022 11:58 AM
 * Notes:
 
-    It generates an itzik ben-gan style tally table (which can accommodate more numbers than the entire range of an Int32 datatype)
+    It generates an itzik ben-gan style tally table,
+        which can accommodate 1_073_741_824 numbers. 
+        (If you need more, add an extra cross join to [b] [c] in the last select to get well over Int32 values)
+
     It then selects the top n rows with a row_number() over it, offset by the provided start).
     There are a couple guard conditions in there which will cause the function to return nothing
     * Start is null
@@ -36,7 +39,7 @@ go
         ExpectedCt = max(s.ExpectedCt),
         OutputCt = count(1)
     from src s
-    cross apply dbo.GetNumbers(s.Low, s.High) n
+    cross apply dbo.GetNumbers(s.InputLow, s.InputHigh) n
     group by s.Id
 
 * Modifications
@@ -52,17 +55,17 @@ create or alter function dbo.GetNumbers
 returns table  
 as  
 return  
-with a (num) as  
+with a as  
 (  
-    select num  
+    select i
     from   
     (  
-        values (1),(1),(1),(1),(1),(1),(1),(1)  
-    ) a (num)  
+        values (1),(1),(1),(1),(1),(1),(1),(1)  --8
+    ) a (i)  
 ), b as  
 (  
-    select a.num  
-    from a a, a b, a c, a d, a e  
+    select a.i
+    from a a, a b, a c, a d, a e  -- power(8, 5) = 32_768
 )     
 select top 
     (
@@ -77,5 +80,6 @@ select top
         )
     )  
     Number = row_number() over (order by (select null)) + (@start - 1)  
-from b a, b b  
+from b a, b b, b c  -- power(32768, 2) = 1_073_741_824
 go
+
