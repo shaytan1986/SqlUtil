@@ -1,8 +1,3 @@
-use Util
-go
-set nocount, xact_abort on
-go
-
 /**********************************************************
 * TABLE-VALUED FUNCTION: dbo.GetNumbers
 * Creator:      Gabe Tower
