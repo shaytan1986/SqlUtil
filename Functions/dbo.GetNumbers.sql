@@ -77,4 +77,3 @@ select top
     Number = row_number() over (order by (select null)) + (@start - 1)  
 from b a, b b, b c  -- power(32768, 2) = 1_073_741_824
 go
-
