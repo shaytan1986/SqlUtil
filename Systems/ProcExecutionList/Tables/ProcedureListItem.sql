@@ -30,7 +30,8 @@ begin
         SchemaName nvarchar(128) not null,
         ProcedureName nvarchar(128) not null,
         InsertDateUtc datetime2(0) not null constraint DF__px_ProcedureListItem__InsertDateUtc default sysutcdatetime(),
-        UpdateDateUtc datetime2(0) not null constraint DF__px_ProcedureListItem__UpdateDateUtc default sysutcdatetime()
+        UpdateDateUtc datetime2(0) not null constraint DF__px_ProcedureListItem__UpdateDateUtc default sysutcdatetime(),
+        IsEnabled bit not null constraint DF__px_ProcedureListItem__IsEnabled default 0
         constraint PKC__px_ProcedureListItem__ProcedureListItemSK primary key clustered (ProcedureListItemSK) 
             with (data_compression = none)
     )

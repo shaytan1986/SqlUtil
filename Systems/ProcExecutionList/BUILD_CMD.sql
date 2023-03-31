@@ -11,7 +11,7 @@ It creates a new schema ([px]) to contain all the relevant items.
 To use, you first create a Proced
 *****************************/
 
-:setvar dir "C:\Users\GTower\OneDrive - Trio Health Advisory Group, Inc\Documents\SQL Server Management Studio\Util\ProcExecution\"
+:setvar dir "C:\Users\GTower\source\repos\TrioHealth\Bitbucket\THMC\sqlutil-proc-execution\"
 print 'Work Dir: $(dir)'
 
 -- Schema
@@ -24,6 +24,7 @@ print 'Work Dir: $(dir)'
 :r $(dir)"Tables\ProcedureListExecutionItem.sql"
 :r $(dir)"Tables\ProcedureListExecutionArg.sql"
 :r $(dir)"Tables\ProcedureListExecutionItemArg.sql"
+:r $(dir)"Tables\ProcedureListDefaultArg.sql"
 
 -- Views
 :r $(dir)"Views\vProcedureListItem.sql"
@@ -40,3 +41,4 @@ print 'Work Dir: $(dir)'
 
 -- Procedures
 :r $(dir)"Procedures\ExecuteProcedureList.sql"
+:r $(dir)"Procedures\AnalyzeProcedureListExecution.sql"

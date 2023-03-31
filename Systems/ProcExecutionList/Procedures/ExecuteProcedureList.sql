@@ -2,6 +2,7 @@ use Admin
 go
 set nocount on
 go
+
 /**********************************************************
 * PROCEDURE px.ExecuteProcedureList
 * Creator:      TRIO\GTower
@@ -24,14 +25,14 @@ go
         values
             (null, null, null, null, '@SystemName', 'DefaultSystemName'),
             (null, null, null, null, '@SystemTag', 'DefaultSystemTag'),
-            ('OMOP', 'dbo', 'Proc1', null, '@SystemName', 'Proc1SystemName'),
-            ('OMOP', 'dbo', 'Proc1', null, '@SystemTag', 'Proc1SystemTag'),
+            ('Admin', 'px', 'TestProc1', null, '@SystemName', 'TestProc1SystemName'),
+            ('Admin', 'px', 'TestProc1', null, '@SystemTag', 'TestProc1SystemTag'),
             -- The ExecutionOrder uniquely identifies a proc, so you don't have to provide the proc naming info. 
             -- You MAY, but it will just be ignored.
             (null, null, null, 3, '@SystemName', 'ExecOrder3SystemName'),
             (null, null, null, 3, '@SystemTag', 'ExecOrder3SystemTag')
 
-		exec px.ExecuteProcedureList
+        exec px.ExecuteProcedureList
             @HomeDatabase = 'Admin',
             @ProcedureListName = 'TestList',
             @Args = @Args
@@ -62,7 +63,8 @@ begin
         @SQL nvarchar(max),
         @Msg nvarchar(max),
         @DatabaseName nvarchar(128),
-        @ObjectId int
+        @ObjectId int,
+        @IsListEnabled bit
     ---------------------------------------------
     -- create temp tables
     ---------------------------------------------
@@ -97,7 +99,19 @@ begin
     ---------------------------------------------
     -- body of stored procedure
     ---------------------------------------------
-    select @ProcedureListSK = px.GetProcedureListSK(@HomeDatabase, @ProcedureListName)
+    select
+        @ProcedureListSK = ProcedureListSK,
+        @IsListEnabled = IsEnabled
+    from px.ProcedureList
+    where HomeDatabase = 'Admin'
+        and Name = 'TestList'
+
+    if @IsListEnabled = 0
+    begin
+        select @Msg = concat('ProcedureListSK: ', quotename(@ProcedureListSK, '"'), ' is disabled')
+        raiserror(@Msg, 0, 1) with nowait
+        return
+    end
 
     begin try
 
@@ -122,6 +136,7 @@ begin
             ObjectId = object_id(concat(quotename(DatabaseName), '.', quotename(SchemaName), '.', quotename(ProcedureName)))
         from px.ProcedureListItem
         where ProcedureListSK = @ProcedureListSk
+            and IsEnabled = 1
         order by ExecutionOrder
 
         -- Error if any items in the list don't resolve to an actual object.
@@ -308,7 +323,7 @@ begin
                     @qThreePartName,
                     ' ',
                     (
-                        select string_agg(concat(ParamName, ' = ', quotename(ParamValue, '''')), ',')
+                        select string_agg(concat(ParamName, ' = ', iif(ParamValue is null, 'null', quotename(ParamValue, ''''))), ',')
                         from #ItemParams
                         where ProcedureListItemSK = @ProcedureListItemSk
                             -- If there are parameters that weren't passed, just ignore them.
@@ -406,7 +421,6 @@ begin
             throw
 
     end catch
-
 
 end
 return

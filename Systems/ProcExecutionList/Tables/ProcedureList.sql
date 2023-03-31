@@ -30,7 +30,8 @@ begin
         SystemName varchar(100) not null, -- If set, will be provided as the default
         SystemTag varchar(100) not null,
         InsertDateUtc datetime2(0) not null constraint DF__px_ProcedureList__InsertDateUtc default sysutcdatetime(),
-        UpdateDateUtc datetime2(0) not null constraint DF__px_ProcedureList__UpdateDateUtc default sysutcdatetime()
+        UpdateDateUtc datetime2(0) not null constraint DF__px_ProcedureList__UpdateDateUtc default sysutcdatetime(),
+        IsEnabled bit not null constraint DF__px_ProcedureList__IsEnabled default 0
         constraint PKC__px_ProcedureList__ProcedureListSK primary key clustered (ProcedureListSK) 
             with (data_compression = none)
     )

@@ -47,10 +47,3 @@ begin
 end
 
 go
-
-
-select *
-from @args
-
-select top 1000 *
-from px.ProcedureListItem

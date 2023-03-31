@@ -3,6 +3,27 @@ go
 set nocount on
 go
 
+drop proc if exists px.TestProc1
+go
+create procedure px.TestProc1
+    @SystemName nvarchar(128),
+    @SystemTag nvarchar(128)
+as
+begin
+    return
+end
+
+drop proc if exists px.TestProc2
+go
+create procedure px.TestProc1
+    @SystemName nvarchar(128),
+    @SystemTag nvarchar(128)
+as
+begin
+    return
+end
+
+go
 if not exists
 (
     select 1
@@ -38,9 +59,9 @@ where ProcedureListSK = @ProcedureListSK
     ProcedureName
 ) as
 (
-    select 1, 'OMOP', 'dbo', 'Procedure1' union all
-    select 2, 'Portal', 'dbo', 'CreateClinicalProtocolForms' union all
-    select 3, 'Portal', 'dbo', 'CreateClinicalProtocolForms'
+    select 1, 'Admin', 'px', 'Proc1' union all
+    select 2, 'Admin', 'px', 'Proc2' union all
+    select 3, 'Admin', 'px', 'Proc2'
 )
 insert into px.ProcedureListItem
 (

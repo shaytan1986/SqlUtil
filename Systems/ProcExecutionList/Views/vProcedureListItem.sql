@@ -25,15 +25,17 @@ as
 
 select
     ProcedureListSK = pl.ProcedureListSK,
-    ListHomeDatabase = HomeDatabase,
-    ListName = Name,
-    ListSystemName = SystemName,
-    ListSystemTag = SystemTag,
+    ListHomeDatabase = pl.HomeDatabase,
+    ListName = pl.Name,
+    ListSystemName = pl.SystemName,
+    ListSystemTag = pl.SystemTag,
+    ListIsEnabled = pl.IsEnabled,
     ProcedureListItemSK = pli.ProcedureListItemSK,
     ItemExecutionOrder = pli.ExecutionOrder,
     ItemDatabaseName = pli.DatabaseName,
     ItemSchemaName = pli.SchemaName,
-    ItemProcedureName = pli.ProcedureName
+    ItemProcedureName = pli.ProcedureName,
+    ItemIsEnabled = pli.IsEnabled
 from px.ProcedureList pl
 inner join px.ProcedureListItem pli
     on pl.ProcedureListSK = pli.ProcedureListSK
