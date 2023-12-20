@@ -1,7 +1,8 @@
 go
 /**********************************************************
 * IN-LINE TABLE-VALUED FUNCTION dbo.DynamicDateAdd
-	notes
+	This function exists for the case where you want to pass the Interval to DATEADD dynamically.
+    It's basically a resolution for this: https://stackoverflow.com/questions/6908783/send-datepart-as-parameter-from-a-table-to-dateadd-function-in-sql-server
 * Sample Usage
 
 declare @Now date = getdate()
